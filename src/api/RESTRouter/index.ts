@@ -1,9 +1,9 @@
-import { Express as ExpressCore } from "express-serve-static-core"
-import { ContainerInstance } from "typedi"
-import auth from "./auth"
+import { Router } from "express";
+import { L3Provider } from "../../interfaces/ILayer";
+import auth from "./auth";
 
-export default ({ app, serviceProvider }: { app: ExpressCore, serviceProvider: ContainerInstance }): ExpressCore => {
+export default ({ app, serviceProvider }: { app: Router, serviceProvider: L3Provider }): Router => {
     auth({ app, serviceProvider })
-    
+
     return app
 }

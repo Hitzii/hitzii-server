@@ -1,5 +1,9 @@
-import { ScheduleOptions, ScheduledTask } from 'node-cron'
+import cron, { ScheduleOptions, ScheduledTask } from 'node-cron'
 
-export default interface ICron {
-    schedule(expression: string, fuction: Function, options: ScheduleOptions): ScheduledTask
+export default class ICron {
+    public schedule(expression: string, _function?: () => void, options?: ScheduleOptions): ScheduledTask {
+        _function = _function ? _function : () => {}
+        options = options ? options : {}
+        return cron.schedule(expression, _function, options)
+    }
 }

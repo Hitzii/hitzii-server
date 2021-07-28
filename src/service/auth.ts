@@ -1,11 +1,9 @@
-import { Inject, Service } from "typedi";
-import { Logger } from "winston";
+import { MicroService } from "../interfaces/IMicroService"
 
-@Service()
-export default class Auth {
-    constructor(
-        @Inject('logger') private logger: Logger
-    ) {}
+export default class Auth extends MicroService {
+    constructor({ eventDispatcher, jobScheduler, logger }) {
+        super({ eventDispatcher, jobScheduler, logger })
+    }
 
     public GetToken(): string {
         return 'Pocoyo!'

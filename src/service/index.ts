@@ -1,27 +1,24 @@
-import { Container, ContainerInstance, Inject } from "typedi";
+import { EventEmitter } from "events";
+import ICron from "../interfaces/ICron";
+import { L3Provider } from "../interfaces/ILayer";
 import LoggerInstance from "../loaders/logger";
 import Auth from "./auth";
 
-export default class Service {
-    private serviceProvider: ContainerInstance
-
-    constructor(
-        // @Inject('logger') private serviceProvider: Container
-    ) {
-        this.serviceProvider = new ContainerInstance('serviceProvider')
-        this.setDependencies()
-        this.setServices()
+export default class Services extends L3Provider {
+    constructor({ eventHandler, jobScheduler }: { eventHandler: EventEmitter, jobScheduler: ICron }) {
+        super({ eventHandler, jobScheduler })
     }
 
-    public GetProvider(): ContainerInstance {
-        return this.serviceProvider
-    }
+    public GetService(serviceId: string) {
+        const eventDispatcher = this.eventHandler
+        const jobScheduler = this.jobScheduler
 
-    private setDependencies(): void {
-        this.serviceProvider.set('logger', LoggerInstance)
-    }
-
-    private setServices(): void {
-        this.serviceProvider.set('auth', Auth)
+        switch (serviceId) {
+            case 'auth-microservice':
+                return new Auth({ eventDispatcher, jobScheduler, logger: LoggerInstance })
+        
+            default:
+                break;
+        }
     }
 }

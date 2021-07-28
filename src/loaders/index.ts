@@ -1,15 +1,19 @@
-import { Server } from "http"
-import { Express as ExpressCore } from "express-serve-static-core"
-import { Container } from "typedi"
+import { createServer } from "http"
+import { Router } from "express"
 import API from "../api"
-import LoggerInstance from "./logger"
+import Services from "../service"
+import { EventEmitter } from "events"
+import ICron from "../interfaces/ICron"
 
-export default async ({ app, httpServer }: { app: ExpressCore|null, httpServer: Server|null }): Promise<API> => {
-    // Set up common dependencies
-    Container.set('logger', LoggerInstance)
+export default (): Router => {
+    // Set layer 3
+    const eventHandler = new EventEmitter()
+    const jobScheduler = new ICron()
+    const l3Provider = new Services({ eventHandler, jobScheduler })
 
-    LoggerInstance.info('Common dependencies loaded')
+    // Set layer 4
+    const httpServer = createServer()
+    const router = Router()
 
-    // Load API layer
-    return new API({ app, httpServer })
+    return (new API({ router, httpServer, l3Provider })).GetRouter()
 }
