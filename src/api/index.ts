@@ -1,11 +1,16 @@
 import { Router } from "express";
 import { Server } from "http";
-import { L3Provider, L4Provider } from "../interfaces/ILayer";
+import { Inject, Service } from "typedi";
+import { L4Provider } from "../interfaces/ILayer";
 import RESTRouter from "./RESTRouter";
 
+@Service()
 export default class API extends L4Provider {
-    constructor({ router, httpServer, l3Provider }: { router: Router, httpServer: Server, l3Provider: L3Provider }) {
-        super({ router, httpServer, l3Provider })
+    constructor(
+        @Inject('router') router: Router,
+        @Inject('httpServer') httpServer: Server
+    ) {
+        super(router, httpServer)
     }
 
     public GetRouter() {
