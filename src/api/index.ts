@@ -1,10 +1,11 @@
 import { Router } from "express";
 import { Server } from "http";
-import { Inject, Service } from "typedi";
+import { Inject } from "typedi";
+import Layer from "../decorators/layer";
 import { L4Provider } from "../interfaces/ILayer";
 import RESTRouter from "./RESTRouter";
 
-@Service()
+@Layer()
 export default class API extends L4Provider {
     constructor(
         @Inject('router') router: Router,

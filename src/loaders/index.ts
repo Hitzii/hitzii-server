@@ -1,25 +1,22 @@
 import { createServer } from "http"
 import { Router } from "express"
-import API from "../api"
-import Services from "../service"
-import { EventEmitter } from "events"
-import ICron from "../interfaces/ICron"
 import Container from "typedi"
+import LoggerInstance from "./logger"
+import l4loader from "./l4loader"
+import l3loader from "./l3loader"
 
 export default (): Router => {
     // Set common dependencies
-    Container.set('eventHandler', new EventEmitter())
-    Container.set('jobScheduler', new ICron())
+    Container.set('logger', LoggerInstance)
 
     Container.set('httpServer', createServer())
     Container.set('router', Router())
 
     // Set layer 3
-    const l3Provider = Container.get(Services)
+    const l3Provider = l3loader()
 
     // Set layer 4
-    const L4Provider = Container.get(API)
-    L4Provider.SetLowerLayer(l3Provider)
+    const l4Provider = l4loader(l3Provider)
 
-    return L4Provider.GetRouter()
+    return l4Provider.GetRouter()
 }
