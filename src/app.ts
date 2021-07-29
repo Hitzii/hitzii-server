@@ -14,7 +14,7 @@ import express, { Router } from 'express'
 const cpuCount = os.cpus().length
 
 async function startServer() {
-    const { port } = config
+    const { port, api } = config
 
     const app = express()
 
@@ -87,7 +87,9 @@ async function startServer() {
         Logger.info(`Worker ${process.pid} started`)
     
         const restRouter = require('./loaders').default() as Router
-        app.use(restRouter)
+        app.use(api.prefix, restRouter)
+
+        app.enable('trust proxy')
     
         httpServer.listen(port)
     }
