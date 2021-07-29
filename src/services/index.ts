@@ -1,11 +1,11 @@
 import { EventEmitter } from "events";
-import Container, { ContainerInstance, Inject, InjectMany, Service } from "typedi";
+import { Inject } from "typedi";
+import { L3EventHandler } from "../decorators/eventHandler";
+import { L3JobScheduler } from "../decorators/jobScheduler";
 import Layer from "../decorators/layer";
 import ICron from "../interfaces/ICron";
 import { L3Provider } from "../interfaces/ILayer";
 import { MicroService } from "../interfaces/IMicroService";
-import LoggerInstance from "../loaders/logger";
-import Auth from "./auth";
 
 @Layer()
 export default class Services extends L3Provider {
@@ -13,8 +13,8 @@ export default class Services extends L3Provider {
     private auth: MicroService
 
     constructor(
-        @Inject('l3.eventHandler') eventHandler: EventEmitter,
-        @Inject('l3.jobScheduler') jobScheduler: ICron
+        @L3EventHandler() eventHandler: EventEmitter,
+        @L3JobScheduler() jobScheduler: ICron
     ) {
         super(eventHandler, jobScheduler)
     }
