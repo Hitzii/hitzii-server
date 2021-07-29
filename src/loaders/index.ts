@@ -12,6 +12,8 @@ export default (): Router => {
     Container.set('httpServer', createServer())
     Container.set('router', Router())
 
+    LoggerInstance.debug('Common dependencies loaded')
+
     // Set layer 3
     const l3Provider = l3loader()
 
