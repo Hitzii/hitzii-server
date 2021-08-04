@@ -18,5 +18,19 @@ export default {
     },
     api: {
         prefix: '/api/v1'
+    },
+    auth: {
+        authCodeTTL: parseInt(process.env.AUTH_CODE_TTL, 10),
+        accessTokenExp: parseInt(process.env.ACCESS_TOKEN_EXP, 10),
+        refreshTokenExp: parseInt(process.env.REFRESH_TOKEN_EXP, 10)
+    },
+    user: {
+        userCacheTTL: parseInt(process.env.USER_CACHE_TTL, 10)
+    },
+    client: {
+        id: process.env.CLIENT_ID,
+        secret: process.env.CLIENT_SECRET,
+        realm: process.env.CLIENT_REALM,
+        redirect_uri: process.env.CLIENT_REDIRECT_URI
     }
 }

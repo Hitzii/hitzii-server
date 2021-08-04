@@ -1,7 +1,9 @@
-export interface ISessionInMemory {
+export interface ISessionDisplay {
 	user: string
-	workspaceViews: string[]
+	workspaceViews?: string[]
 	connection: boolean
 }
 
-export interface ISessionDisplay extends ISessionInMemory {}
+export interface ISessionInMemory extends ISessionDisplay {
+	key?: string
+}

@@ -1,5 +1,9 @@
-export interface IUserInputDTO {
-    name: string
+export interface IUserNameDTO {
+    firstName: string
+    lastName: string
+}
+
+export interface IUserInputDTO extends IUserNameDTO {
     email: string
     password: string
 }
@@ -9,8 +13,8 @@ export interface IUserDocDTO {
     firstName: string
     lastName: string
     email: string
-    hashedPassword: string
-    salt: string
+    hashedPassword?: string
+    salt?: string
     picture?: string
     organizations?: string[]
     billingInfo?: string
@@ -22,8 +26,8 @@ export interface IUserRecord {
     firstName: string
     lastName: string
     email: string
-    hashedPassword: string
-    salt: string
+    hashedPassword?: string
+    salt?: string
     picture?: string
     organizations?: string[]
     billingInfo?: string
@@ -33,13 +37,13 @@ export interface IUserRecord {
 }
 
 export interface IUserInMemory {
-    key: string
+    key?: string
     firstName: string
     lastName: string
     email: string
     picture?: string
     organizations?: string[]
-    sessions: string[]
+    sessions?: string[]
 }
 
 export interface IUserDisplay {
@@ -49,4 +53,16 @@ export interface IUserDisplay {
     email: string
     picture?: string
     organizations?: string[]
+}
+
+export interface IAccountName {
+    displayName: string
+}
+
+export interface IResetUserPwd {
+    new_password: string
+}
+
+export interface IChangeUserPwd extends IResetUserPwd {
+    current_password: string
 }

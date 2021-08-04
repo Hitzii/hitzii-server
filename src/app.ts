@@ -6,7 +6,7 @@ import os from 'os'
 import { setupMaster } from '@socket.io/sticky'
 import config from './config'
 import { createServer } from 'http'
-import Logger from './loaders/logger'
+import Logger from './loaders/commons/logger'
 
 import express, { Router } from 'express'
 // import API from './api'
@@ -86,7 +86,7 @@ async function startServer() {
     } else {
         Logger.info(`Worker ${process.pid} started`)
     
-        const restRouter = require('./loaders').default() as Router
+        const restRouter = await require('./loaders').default() as Router
         app.use(api.prefix, restRouter)
 
         app.enable('trust proxy')

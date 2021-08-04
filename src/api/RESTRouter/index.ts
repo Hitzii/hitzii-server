@@ -1,7 +1,8 @@
-import { NextFunction, Request, Response, Router } from "express";
+import { NextFunction, Request, Response, Router, json } from "express";
 import cors from 'cors';
 import { L3Provider } from "../../interfaces/ILayer";
 import auth from "./auth";
+import user from "./user";
 
 interface ErrorReq extends Error {
     status: number
@@ -21,8 +22,11 @@ export default ({ app, serviceProvider }: { app: Router, serviceProvider: L3Prov
 
     app.use(require('method-override')())
 
+    app.use(json())
+
     // Load routes
     auth({ app, serviceProvider })
+    user({ app, serviceProvider })
 
     // Handle request errors
     app.use((req: Request, res: Response, next: NextFunction) => {
