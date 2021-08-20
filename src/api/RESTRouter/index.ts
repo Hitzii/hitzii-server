@@ -1,4 +1,4 @@
-import { NextFunction, Request, Response, Router, json } from "express";
+import { NextFunction, Request, Response, Router, json, urlencoded } from "express";
 import cors from 'cors';
 import { L3Provider } from "../../interfaces/ILayer";
 import auth from "./auth";
@@ -23,6 +23,8 @@ export default ({ app, serviceProvider }: { app: Router, serviceProvider: L3Prov
     app.use(require('method-override')())
 
     app.use(json())
+
+    app.use(urlencoded({ extended: true }))
 
     // Load routes
     auth({ app, serviceProvider })

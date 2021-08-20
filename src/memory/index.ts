@@ -15,8 +15,11 @@ export default class Memory extends L2Provider {
     @Inject('user.memoryservice')
     private user: MemoryService
 
-    @Inject('session.memoryservice')
-    private session: MemoryService
+    @Inject('recovery.memoryservice')
+    private recovery: MemoryService
+
+    @Inject('emailVerification.memoryservice')
+    private emailVerification: MemoryService
 
     constructor(
         @L2EventHandler() eventHandler: EventEmitter,

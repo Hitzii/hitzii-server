@@ -14,7 +14,7 @@ export default async (): Promise<Router> => {
     LoggerInstance.info('DB loaded and connected')
     
     // Set common dependencies
-    commonsLoader()
+    await commonsLoader()
     LoggerInstance.debug('Common dependencies loaded')
 
     // Set DB models

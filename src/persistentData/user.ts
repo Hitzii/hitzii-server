@@ -26,11 +26,6 @@ export default class User extends DataService {
         return userRecord
     }
 
-    public async UpdateById(_id: string, userDoc: Partial<IUserDocDTO>): Promise<IUserRecord> {
-        const userRecord = await this.model.findByIdAndUpdate(_id, userDoc, { new: true })
-        return userRecord
-    }
-
     public async GetById(_id: string): Promise<IUserRecord> {
         const userRecord = await this.model.findById(_id)
         return userRecord
@@ -40,7 +35,15 @@ export default class User extends DataService {
         const query = {}
         query[`${field}`] = value
         const userRecord = await this.model.findOne(query)
-        this.logger.debug('userRecord is \n%o\n and query was \n%o\n', userRecord, query)
         return userRecord
+    }
+
+    public async UpdateById(_id: string, userDoc: Partial<IUserDocDTO>): Promise<IUserRecord> {
+        const userRecord = await this.model.findByIdAndUpdate(_id, userDoc, { new: true })
+        return userRecord
+    }
+
+    public async DeleteById(_id: string): Promise<void> {
+        await this.model.findByIdAndDelete(_id)
     }
 }

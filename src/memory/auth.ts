@@ -22,9 +22,8 @@ export default class Auth extends MemoryService {
         super(eventDispatcher, jobScheduler, redis, logger)
     }
 
-    public async Create(code: string, { _id }: IUserDisplay, authRequest: IAuthRequest, jwtToken?: string): Promise<IAuthGrant> {
+    public async Create(code: string, { _id }: Partial<IUserDisplay>, authRequest: IAuthRequest): Promise<IAuthGrant> {
         try {
-            this.logger.debug('User._id is \n%s\n and authRequest is \n%o\n', _id, authRequest)
             const key = `auth.grant:${code}`
 
             if (authRequest.grant_type === "authorization_code") {
@@ -37,9 +36,7 @@ export default class Auth extends MemoryService {
                     .expire(key, config.auth.authCodeTTL)
                     .hgetall(key)
                     .exec()
-                    .then((result) => {
-                        return result[2][1]
-                    })
+                    .then((result) => result[2][1])
             }
 
             if (authRequest.grant_type === "refresh_token") {
@@ -47,15 +44,12 @@ export default class Auth extends MemoryService {
                     .multi()
                     .hmset(key, {
                         ...authRequest,
-                        user_id: _id,
-                        session: jwtToken
+                        user_id: _id
                     } as IAuthGrant)
                     .expire(key, config.auth.refreshTokenExp)
                     .hgetall(key)
                     .exec()
-                    .then((result) => {
-                        return result[2][1]
-                    })
+                    .then((result) =>result[2][1])
             }
 
         } catch (error) {
@@ -71,7 +65,6 @@ export default class Auth extends MemoryService {
                 .hgetall(key)
                 .exec()
                 .then((result) => {
-                    this.logger.debug('Result is \n%o\n', result)
                     if (Object.values(result[0][1]).length === 0) {
                         throw new Error('Authorization grant code is invalid or has expired')
                     }

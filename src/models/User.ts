@@ -22,14 +22,34 @@ const User = new Schema(
 			index: true,
 		},
 
-		hashedPassword: {
-			type: String,
+		emailVerified: {
+			type: Boolean,
 			required: true
 		},
 
-		salt: {
-			type: String,
-			required: true
+		hashedPassword: String,
+
+		salt: String,
+
+		openID: {
+			type: {
+				provider: {
+					type: String,
+					required: true
+				},
+				email: {
+					type: String,
+					required: true
+				},
+				emailVerified: {
+					type: Boolean,
+					required: true
+				},
+				sub: {
+					type: String,
+					required: true
+				}
+			}
 		},
 
 		picture: String,

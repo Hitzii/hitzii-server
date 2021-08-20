@@ -24,13 +24,38 @@ export default {
         accessTokenExp: parseInt(process.env.ACCESS_TOKEN_EXP, 10),
         refreshTokenExp: parseInt(process.env.REFRESH_TOKEN_EXP, 10)
     },
+    recovery: {
+        recoveryCodeTTL: parseInt(process.env.RECOVERY_CODE_TTL, 10)
+    },
+    emailVerification: {
+        emailVerificationCodeTTL: parseInt(process.env.EMAIL_VERIFICATION_CODE_TTL, 10)
+    },
     user: {
         userCacheTTL: parseInt(process.env.USER_CACHE_TTL, 10)
+    },
+    SMTP: {
+        host: process.env.SMTP_HOST,
+        port: parseInt(process.env.SMTP_PORT, 10),
+        user: process.env.SMTP_USERNAME,
+        pass: process.env.SMTP_PASSWORD,
+        mailFrom: process.env.SMTP_MAIL_FROM
     },
     client: {
         id: process.env.CLIENT_ID,
         secret: process.env.CLIENT_SECRET,
         realm: process.env.CLIENT_REALM,
         redirect_uri: process.env.CLIENT_REDIRECT_URI
+    },
+    google: {
+        id: process.env.GOOGLE_ID,
+        secret: process.env.GOOGLE_SECRET,
+        redirect_uri: process.env.GOOGLE_REDIRECT_URI,
+        default_scope: process.env.GOOGLE_DEFAULT_SCOPE.replace('-', ' ')
+    },
+    facebook: {
+        id: process.env.FACEBOOK_ID,
+        secret: process.env.FACEBOOK_SECRET,
+        redirect_uri: process.env.FACEBOOK_REDIRECT_URI,
+        default_scope: process.env.FACEBOOK_DEFAULT_SCOPE.replace('-', ' ')
     }
 }

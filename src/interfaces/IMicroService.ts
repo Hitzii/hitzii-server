@@ -1,6 +1,6 @@
 import { EventEmitter } from "events"
 import { Logger } from "winston"
-import ICron from "./ICron"
+import ICron from "./dependencies/ICron"
 import { L3Provider } from "./ILayer"
 
 export class MicroService {

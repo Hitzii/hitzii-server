@@ -1,10 +1,11 @@
 import { Model } from "mongoose"
-import { IUserRecord } from "../interfaces/IUser"
+import { IUserDisplay, IUserRecord } from "../interfaces/IUser"
 
 import * as UserDataService from '../persistentData/user'
 
 import * as AuthMemoryService from '../memory/auth'
-import * as SessionMemoryService from '../memory/session'
+import * as EmailVerificationMemoryService from '../memory/emailVerification'
+import * as RecoveryMemoryService from '../memory/recovery'
 import * as UserMemoryService from '../memory/user'
 
 import * as AuthMicroService from '../services/auth'
@@ -24,7 +25,8 @@ declare global {
 
     namespace MemoryServices {
         export type Auth = AuthMemoryService.default
-        export type Session = SessionMemoryService.default
+        export type EmailVerification = EmailVerificationMemoryService.default
+        export type Recovery = RecoveryMemoryService.default
         export type User = UserMemoryService.default
     }
 
@@ -37,6 +39,7 @@ declare global {
     namespace Express {
         export interface Request{
             token: IAccessToken
+            currentUser: IUserDisplay
         }
     }
 }

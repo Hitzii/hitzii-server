@@ -1,15 +1,15 @@
 import { IAuthorizationCode } from "../interfaces/IAuthToken";
 import { IEventListener } from "../interfaces/dependencies/IEventListener";
-import { IUserRecord } from "../interfaces/IUser";
+import { IUserDisplay } from "../interfaces/IUser";
 import LoggerInstance from "../loaders/commons/logger";
 import events from "./events";
 
 const serviceSubscribers = [
     {
         event: events.user.signUp,
-        listener: (user: IUserRecord) => {
+        listener: (user: IUserDisplay) => {
             const logger = LoggerInstance
-            logger.info('User signed up with record %o', user)
+            logger.info('User signed up with display %o', user)
         }
     },
     {
@@ -29,7 +29,7 @@ const serviceSubscribers = [
     // },
     {
         event: events.user.signIn,
-        listener: (user: IUserRecord) => {
+        listener: (user: IUserDisplay) => {
             //
         }
     },

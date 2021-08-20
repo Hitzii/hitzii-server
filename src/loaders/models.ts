@@ -1,5 +1,5 @@
 import Container from "typedi"
-import { IServiceInfo } from "../interfaces/IServiceInfo"
+import { IServiceInfo } from "../interfaces/IUtils"
 
 export default () => {
     const modelList: IServiceInfo[] = [

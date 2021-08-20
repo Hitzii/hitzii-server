@@ -2,7 +2,7 @@ import EventEmitter from "events";
 import Container from "typedi";
 import ICron from "../interfaces/dependencies/ICron";
 import { L1Provider, L2Provider } from "../interfaces/ILayer";
-import { IServiceInfo } from "../interfaces/IServiceInfo";
+import { IServiceInfo } from "../interfaces/IUtils";
 import Memory from "../memory";
 
 export default (l1Provider: L1Provider): L2Provider => {
@@ -15,12 +15,16 @@ export default (l1Provider: L1Provider): L2Provider => {
             instance: require('../memory/auth').default
         },
         {
-            serviceName: 'user',
-            instance: require('../memory/user').default
+            serviceName: 'emailVerification',
+            instance: require('../memory/emailVerification').default
         },
         {
-            serviceName: 'session',
-            instance: require('../memory/session').default
+            serviceName: 'recovery',
+            instance: require('../memory/recovery').default
+        },
+        {
+            serviceName: 'user',
+            instance: require('../memory/user').default
         }
     ]
 
