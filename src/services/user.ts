@@ -1,7 +1,5 @@
-import { EventEmitter } from "stream";
 import { Inject, Service } from "typedi";
 import { Logger } from "winston";
-import { L3EventHandler } from "../decorators/eventHandler";
 import { L3JobScheduler } from "../decorators/jobScheduler";
 import DevLogger from "../decorators/logger";
 import IArgon2 from "../interfaces/dependencies/IArgon2";
@@ -20,11 +18,10 @@ export default class User extends MicroService {
     private crypto: ICrypto
 
     constructor(
-        @L3EventHandler() eventDispatcher: EventEmitter,
         @L3JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(eventDispatcher, jobScheduler, logger)
+        super(jobScheduler, logger)
     }
 
     public async CreateAccount(userDoc: Partial<IUserDocDTO>): Promise<IUserValidation> {

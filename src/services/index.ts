@@ -1,6 +1,4 @@
-import { EventEmitter } from "events";
 import { Inject } from "typedi";
-import { L3EventHandler } from "../decorators/eventHandler";
 import { L3JobScheduler } from "../decorators/jobScheduler";
 import Layer from "../decorators/layer";
 import ICron from "../interfaces/dependencies/ICron";
@@ -19,16 +17,15 @@ export default class Services extends L3Provider {
     private user: MicroService
 
     constructor(
-        @L3EventHandler() eventHandler: EventEmitter,
         @L3JobScheduler() jobScheduler: ICron
     ) {
-        super(eventHandler, jobScheduler)
+        super(jobScheduler)
     }
 
     public GetService(serviceId: string): MicroService {
         const serviceInstance = this[serviceId] as MicroService | any
 
-        if(serviceInstance !== this.eventHandler || serviceInstance !== this.jobScheduler) {
+        if(serviceInstance !== this.jobScheduler) {
             serviceInstance.SetParentLayer(this)
             return serviceInstance
         } else {

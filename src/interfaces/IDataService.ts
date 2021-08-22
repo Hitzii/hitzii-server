@@ -1,4 +1,3 @@
-import EventEmitter from "events"
 import { Document, Model } from "mongoose"
 import { Logger } from "winston"
 import ICron from "./dependencies/ICron"
@@ -9,11 +8,9 @@ export class DataService {
     protected model: Model<Document>
 
     constructor(
-        protected eventDispatcher: EventEmitter,
         protected jobScheduler: ICron,
         protected logger: Logger
     ) {
-        this.eventDispatcher = eventDispatcher
         this.jobScheduler = jobScheduler
         this.logger = logger
     }

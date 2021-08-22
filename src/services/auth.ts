@@ -1,7 +1,5 @@
-import { EventEmitter } from "events"
 import { Inject, Service } from "typedi"
 import { Logger } from "winston"
-import { L3EventHandler } from "../decorators/eventHandler"
 import { L3JobScheduler } from "../decorators/jobScheduler"
 import DevLogger from "../decorators/logger"
 import { IAccessToken, IAuthorizationCode, IAuthRequest, IAuthToken, IEmailVerificationCode, IEmailVerificationGrant, IEmailVerificationRequest, IRecoveryCode, IRecoveryGrant, IRecoveryRequest, IRefreshToken, ITokenExchangeInput } from "../interfaces/IAuthToken"
@@ -41,11 +39,10 @@ export default class Auth extends MicroService {
     private mailer: Transporter
 
     constructor(
-        @L3EventHandler() eventDispatcher: EventEmitter,
         @L3JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(eventDispatcher, jobScheduler, logger)
+        super(jobScheduler, logger)
     }
 
     // User authorization
@@ -77,12 +74,12 @@ export default class Auth extends MicroService {
                 throw new Error('This email is already in use')
             }
 
-            this.eventDispatcher.emit('userSignUp', user)
+            this.eventDispatcher.dispatch('userSignUp', user)
 
             this.logger.silly('Issuing authorization code')
             // return this.issueAuthCode(userRecord, authRequest)
             const authCode = await this.issueAuthCode(user, authRequest)
-            this.eventDispatcher.emit('authCodeIssued', authCode)
+            this.eventDispatcher.dispatch('authCodeIssued', authCode)
             return authCode
 
         } catch( error) {
@@ -111,11 +108,11 @@ export default class Auth extends MicroService {
                 throw new Error('Invalid password')
             }
 
-            this.eventDispatcher.emit('userSignIn', userRecord)
+            this.eventDispatcher.dispatch('userSignIn', userRecord)
 
             this.logger.silly('Issuing authorization code')
             const authCode = await this.issueAuthCode(userRecord, authRequest)
-            this.eventDispatcher.emit('authCodeIssued', authCode)
+            this.eventDispatcher.dispatch('authCodeIssued', authCode)
             return authCode
 
         } catch (error) {

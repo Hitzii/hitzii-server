@@ -1,6 +1,4 @@
-import EventEmitter from "events";
 import { Inject } from "typedi";
-import { L2EventHandler } from "../decorators/eventHandler";
 import { L2JobScheduler } from "../decorators/jobScheduler";
 import Layer from "../decorators/layer";
 import ICron from "../interfaces/dependencies/ICron";
@@ -22,16 +20,15 @@ export default class Memory extends L2Provider {
     private emailVerification: MemoryService
 
     constructor(
-        @L2EventHandler() eventHandler: EventEmitter,
         @L2JobScheduler() jobScheduler: ICron
     ) {
-        super(eventHandler, jobScheduler)
+        super(jobScheduler)
     }
 
     public GetService(serviceId: string): MemoryService {
         const serviceInstance = this[serviceId] as MemoryService | any
 
-        if(serviceInstance !== this.eventHandler || serviceInstance !== this.jobScheduler) {
+        if(serviceInstance !== this.jobScheduler) {
             serviceInstance.SetParentLayer(this)
             return serviceInstance
         } else {

@@ -1,4 +1,3 @@
-import EventEmitter from "events";
 import Container from "typedi";
 import ICron from "../interfaces/dependencies/ICron";
 import { L1Provider, L2Provider } from "../interfaces/ILayer";
@@ -6,7 +5,6 @@ import { IServiceInfo } from "../interfaces/IUtils";
 import Memory from "../memory";
 
 export default (l1Provider: L1Provider): L2Provider => {
-    Container.set('l2.eventHandler', new EventEmitter())
     Container.set('l2.jobScheduler', new ICron())
 
     const serviceList: IServiceInfo[] = [

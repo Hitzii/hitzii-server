@@ -1,9 +1,7 @@
-import EventEmitter from "events"
 import { Redis } from "ioredis"
 import { Inject, Service } from "typedi"
 import { Logger } from "winston"
 import config from "../config"
-import { L2EventHandler } from "../decorators/eventHandler"
 import { L2JobScheduler } from "../decorators/jobScheduler"
 import DevLogger from "../decorators/logger"
 import ICron from "../interfaces/dependencies/ICron"
@@ -14,12 +12,11 @@ import { IUserDisplay } from "../interfaces/IUser"
 @Service()
 export default class EmailVerification extends MemoryService {
     constructor(
-        @L2EventHandler() eventDispatcher: EventEmitter,
         @L2JobScheduler() jobScheduler: ICron,
         @Inject('redis') redis: Redis,
         @DevLogger() logger: Logger
     ) {
-        super(eventDispatcher, jobScheduler, redis, logger)
+        super(jobScheduler, redis, logger)
     }
 
     public async Create(code: string, { _id }: Partial<IUserDisplay>, emailVerificationRequest: IEmailVerificationRequest): Promise<IEmailVerificationGrant> {

@@ -1,4 +1,3 @@
-import EventEmitter from 'events'
 import { Router } from 'express'
 import { Server } from 'http'
 import { Model } from 'mongoose'
@@ -34,16 +33,14 @@ export class L3Provider {
     protected l2Provider: L2Provider
 
     constructor(
-        protected eventHandler: EventEmitter,
         protected jobScheduler: ICron
     ) {}
 
     public GetService(serviceId: string): MicroService {
         if (serviceId) {
-            const eventDispatcher = this.eventHandler
             const jobScheduler = this.jobScheduler
             const logger = LoggerInstance
-            return new MicroService(eventDispatcher, jobScheduler, logger)
+            return new MicroService(jobScheduler, logger)
         }
     }
 
@@ -60,16 +57,14 @@ export class L2Provider {
     protected l1Provider: L1Provider
 
     constructor(
-        protected eventHandler: EventEmitter,
         protected jobScheduler: ICron
     ) {}
 
     public GetService(serviceId: string): MemoryService {
         if (serviceId) {
-            const eventDispatcher = this.eventHandler
             const jobScheduler = this.jobScheduler
             const logger = LoggerInstance
-            return new MemoryService(eventDispatcher, jobScheduler, redisClient, logger)
+            return new MemoryService(jobScheduler, redisClient, logger)
         }
     }
 
@@ -84,17 +79,15 @@ export class L2Provider {
 
 export class L1Provider {
     constructor(
-        protected eventHandler: EventEmitter,
         protected jobScheduler: ICron
     ) {}
 
     public GetService(serviceId: string): DataService {
         if (serviceId) {
-            const eventDispatcher = this.eventHandler
             const jobScheduler = this.jobScheduler
             const model = new Model()
             const logger = LoggerInstance
-            return new DataService(eventDispatcher, jobScheduler, logger)
+            return new DataService(jobScheduler, logger)
         }
     }
 }

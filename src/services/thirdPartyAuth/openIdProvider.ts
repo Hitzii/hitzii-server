@@ -1,9 +1,7 @@
 import { AxiosInstance, AxiosRequestConfig } from "axios";
-import EventEmitter from "events";
 import { Inject, Service } from "typedi";
 import { Logger } from "winston";
 import config from "../../config";
-import { L3EventHandler } from "../../decorators/eventHandler";
 import { L3JobScheduler } from "../../decorators/jobScheduler";
 import DevLogger from "../../decorators/logger";
 import IBSON from "../../interfaces/dependencies/IBSON";
@@ -28,11 +26,10 @@ export default class OpenIdProvider extends MicroService {
     private jwt: IJWT
 
     constructor(
-        @L3EventHandler() eventDispatcher: EventEmitter,
         @L3JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(eventDispatcher, jobScheduler, logger)
+        super(jobScheduler, logger)
     }
 
     public async SignUp(authRequest: IAuthRequest): Promise<IThirdAuthCode> {

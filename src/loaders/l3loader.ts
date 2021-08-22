@@ -1,4 +1,3 @@
-import EventEmitter from "events";
 import Container from "typedi";
 import ICron from "../interfaces/dependencies/ICron";
 import { L2Provider, L3Provider } from "../interfaces/ILayer";
@@ -8,7 +7,6 @@ import Services from "../services";
 import { facebookDiscoveryDoc, googleDiscoveryDoc } from "./discoveryDoc";
 
 export default (l2Provider: L2Provider): L3Provider => {
-    Container.set('l3.eventHandler', new EventEmitter())
     Container.set('l3.jobScheduler', new ICron())
 
     Container.set('googleDiscoveryDoc', googleDiscoveryDoc)
