@@ -14,6 +14,7 @@ import ICrypto from "../interfaces/dependencies/ICrypto"
 import IJWT from "../interfaces/dependencies/IJWT"
 import { Transporter, SendMailOptions, SentMessageInfo } from 'nodemailer'
 import { IMissingItems } from "../interfaces/IUtils"
+import events from "../subscribers/events"
 
 interface ExtSentMessageInfo extends SentMessageInfo {
     messageId: string
@@ -74,12 +75,12 @@ export default class Auth extends MicroService {
                 throw new Error('This email is already in use')
             }
 
-            this.eventDispatcher.dispatch('userSignUp', user)
+            this.eventDispatcher.dispatch(events.user.signUp, user)
 
             this.logger.silly('Issuing authorization code')
             // return this.issueAuthCode(userRecord, authRequest)
             const authCode = await this.issueAuthCode(user, authRequest)
-            this.eventDispatcher.dispatch('authCodeIssued', authCode)
+            this.eventDispatcher.dispatch(events.auth.codeIssued, authCode)
             return authCode
 
         } catch( error) {
@@ -108,11 +109,11 @@ export default class Auth extends MicroService {
                 throw new Error('Invalid password')
             }
 
-            this.eventDispatcher.dispatch('userSignIn', userRecord)
+            this.eventDispatcher.dispatch(events.user.signIn, userRecord)
 
             this.logger.silly('Issuing authorization code')
             const authCode = await this.issueAuthCode(userRecord, authRequest)
-            this.eventDispatcher.dispatch('authCodeIssued', authCode)
+            this.eventDispatcher.dispatch(events.auth.codeIssued, authCode)
             return authCode
 
         } catch (error) {

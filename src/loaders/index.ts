@@ -7,6 +7,7 @@ import l2loader from "./l2loader"
 import l3loader from "./l3loader"
 import l4loader from "./l4loader"
 import commonsLoader from "./commons"
+import eventSubscribersLoader from "./eventSubscribers"
 
 export default async (): Promise<Router> => {
     // Connect to DB
@@ -31,6 +32,9 @@ export default async (): Promise<Router> => {
 
     // Set layer 4
     const l4Provider = l4loader(l3Provider)
+
+    // Set event subscribers
+    eventSubscribersLoader({ l1Provider, l2Provider, l3Provider })
 
     return l4Provider.GetRouter()
 }

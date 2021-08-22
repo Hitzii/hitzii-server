@@ -7,6 +7,7 @@ import ICron from './dependencies/ICron'
 import { DataService } from './IDataService'
 import { MemoryService } from './IMemoryService'
 import { MicroService } from './IMicroService'
+import { Subscriber } from './ISubscriber'
 
 export class L4Provider {
     protected l3Provider: L3Provider
@@ -31,6 +32,7 @@ export class L4Provider {
 
 export class L3Provider {
     protected l2Provider: L2Provider
+    private eventSubscriber: Subscriber
 
     constructor(
         protected jobScheduler: ICron
@@ -50,6 +52,14 @@ export class L3Provider {
 
     public GetLowerLayer(): L2Provider {
         return this.l2Provider
+    }
+
+    public SetEventSubscriber(subscriber: Subscriber) {
+        this.eventSubscriber = subscriber
+    }
+
+    public GetEventSubscriber(): Subscriber {
+        return this.eventSubscriber
     }
 }
 

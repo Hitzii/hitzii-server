@@ -1,17 +1,17 @@
 export default {
     user: {
-        signUp: 'userSignUp',
-        signIn: 'userSignIn'
+        signUp: 'onUserSignUp',
+        signIn: 'onUserSignIn'
     },
     auth: {
-        codeIssued: 'authCodeIssued',
-        codeRevoked: 'authCodeRevoked',
-        tokenRefrehed: 'authTokenRefreshed'
+        codeIssued: 'onAuthCodeIssued',
+        codeRevoked: 'onAuthCodeRevoked',
+        tokenRefrehed: 'onAuthTokenRefreshed'
     },
     session: {
-        created: 'sessionCreated',
-        closed: 'sessionClosed',
-        allClosed: 'allSessionsClosed',
-        refreshed: 'sessionRefreshed'
+        created: 'onSessionCreated',
+        closed: 'onSessionClosed',
+        allClosed: 'onAllSessionsClosed',
+        refreshed: 'onSessionRefreshed'
     },
 }
