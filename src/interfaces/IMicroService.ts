@@ -1,11 +1,11 @@
 import { Logger } from "winston"
 import ICron from "./dependencies/ICron"
 import { L3Provider } from "./ILayer"
-import { Subscriber } from "./ISubscriber"
+import { ISubscriber } from "./ISubscriber"
 
 export class MicroService {
     protected parentLayer: L3Provider
-    protected eventDispatcher: Subscriber
+    protected eventDispatcher: ISubscriber
 
     constructor(
         protected jobScheduler: ICron,
@@ -20,7 +20,7 @@ export class MicroService {
         this.setEventDispatcher(l3Provider.GetEventSubscriber())
     }
 
-    private setEventDispatcher(dispatcher: Subscriber): void {
+    private setEventDispatcher(dispatcher: ISubscriber): void {
         this.eventDispatcher = dispatcher
     }
 }

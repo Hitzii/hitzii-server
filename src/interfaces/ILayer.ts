@@ -7,7 +7,7 @@ import ICron from './dependencies/ICron'
 import { DataService } from './IDataService'
 import { MemoryService } from './IMemoryService'
 import { MicroService } from './IMicroService'
-import { Subscriber } from './ISubscriber'
+import { ISubscriber } from './ISubscriber'
 
 export class L4Provider {
     protected l3Provider: L3Provider
@@ -32,7 +32,7 @@ export class L4Provider {
 
 export class L3Provider {
     protected l2Provider: L2Provider
-    private eventSubscriber: Subscriber
+    private eventSubscriber: ISubscriber
 
     constructor(
         protected jobScheduler: ICron
@@ -54,17 +54,18 @@ export class L3Provider {
         return this.l2Provider
     }
 
-    public SetEventSubscriber(subscriber: Subscriber) {
+    public SetEventSubscriber(subscriber: ISubscriber) {
         this.eventSubscriber = subscriber
     }
 
-    public GetEventSubscriber(): Subscriber {
+    public GetEventSubscriber(): ISubscriber {
         return this.eventSubscriber
     }
 }
 
 export class L2Provider {
     protected l1Provider: L1Provider
+    private eventSubscriber: ISubscriber
 
     constructor(
         protected jobScheduler: ICron
@@ -85,9 +86,19 @@ export class L2Provider {
     public GetLowerLayer(): L1Provider {
         return this.l1Provider
     }
+
+    public SetEventSubscriber(subscriber: ISubscriber) {
+        this.eventSubscriber = subscriber
+    }
+
+    public GetEventSubscriber(): ISubscriber {
+        return this.eventSubscriber
+    }
 }
 
 export class L1Provider {
+    private eventSubscriber: ISubscriber
+    
     constructor(
         protected jobScheduler: ICron
     ) {}
@@ -99,5 +110,13 @@ export class L1Provider {
             const logger = LoggerInstance
             return new DataService(jobScheduler, logger)
         }
+    }
+
+    public SetEventSubscriber(subscriber: ISubscriber) {
+        this.eventSubscriber = subscriber
+    }
+
+    public GetEventSubscriber(): ISubscriber {
+        return this.eventSubscriber
     }
 }

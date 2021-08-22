@@ -2,9 +2,11 @@ import { Redis } from "ioredis"
 import { Logger } from "winston"
 import ICron from "./dependencies/ICron"
 import { L2Provider } from "./ILayer"
+import { ISubscriber } from "./ISubscriber"
 
 export class MemoryService {
     protected parentLayer: L2Provider
+    protected eventDispatcher: ISubscriber
 
     constructor(
         protected jobScheduler: ICron,
@@ -18,6 +20,11 @@ export class MemoryService {
 
     public SetParentLayer(l2Provider: L2Provider): void {
         this.parentLayer = l2Provider
+        this.setEventDispatcher(l2Provider.GetEventSubscriber())
+    }
+
+    private setEventDispatcher(dispatcher: ISubscriber): void {
+        this.eventDispatcher = dispatcher
     }
 
     protected async getMembersOfSet(key: string): Promise<string[]> {

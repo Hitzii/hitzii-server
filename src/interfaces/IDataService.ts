@@ -1,10 +1,12 @@
 import { Document, Model } from "mongoose"
 import { Logger } from "winston"
 import ICron from "./dependencies/ICron"
-import { L2Provider } from "./ILayer"
+import { L1Provider } from "./ILayer"
+import { ISubscriber } from "./ISubscriber"
 
 export class DataService {
-    protected parentLayer: L2Provider
+    protected parentLayer: L1Provider
+    protected eventDispatcher: ISubscriber
     protected model: Model<Document>
 
     constructor(
@@ -15,7 +17,12 @@ export class DataService {
         this.logger = logger
     }
 
-    public SetParentLayer(l2Provider: L2Provider): void {
-        this.parentLayer = l2Provider
+    public SetParentLayer(l1Provider: L1Provider): void {
+        this.parentLayer = l1Provider
+        this.setEventDispatcher(l1Provider.GetEventSubscriber())
+    }
+
+    private setEventDispatcher(dispatcher: ISubscriber): void {
+        this.eventDispatcher = dispatcher
     }
 }
