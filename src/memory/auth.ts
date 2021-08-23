@@ -2,21 +2,18 @@ import { Redis } from "ioredis"
 import { Inject, Service } from "typedi"
 import { Logger } from "winston"
 import config from "../config"
-import { L2JobScheduler } from "../decorators/jobScheduler"
 import DevLogger from "../decorators/logger"
 import { IAuthGrant, IAuthRequest } from "../interfaces/IAuthToken"
-import ICron from "../interfaces/dependencies/ICron"
 import { MemoryService } from "../interfaces/IMemoryService"
 import { IUserDisplay } from "../interfaces/IUser"
 
 @Service()
 export default class Auth extends MemoryService {
     constructor(
-        @L2JobScheduler() jobScheduler: ICron,
         @Inject('redis') redis: Redis,
         @DevLogger() logger: Logger
     ) {
-        super(jobScheduler, redis, logger)
+        super(redis, logger)
     }
 
     public async Create(code: string, { _id }: Partial<IUserDisplay>, authRequest: IAuthRequest): Promise<IAuthGrant> {

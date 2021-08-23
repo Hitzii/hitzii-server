@@ -3,7 +3,6 @@ import { Server } from 'http'
 import { Model } from 'mongoose'
 import LoggerInstance from '../loaders/commons/logger'
 import redisClient from '../loaders/commons/redis'
-import ICron from './dependencies/ICron'
 import { DataService } from './IDataService'
 import { MemoryService } from './IMemoryService'
 import { MicroService } from './IMicroService'
@@ -34,15 +33,12 @@ export class L3Provider {
     protected l2Provider: L2Provider
     private eventSubscriber: ISubscriber
 
-    constructor(
-        protected jobScheduler: ICron
-    ) {}
+    constructor() {}
 
     public GetService(serviceId: string): MicroService {
         if (serviceId) {
-            const jobScheduler = this.jobScheduler
             const logger = LoggerInstance
-            return new MicroService(jobScheduler, logger)
+            return new MicroService(logger)
         }
     }
 
@@ -67,15 +63,12 @@ export class L2Provider {
     protected l1Provider: L1Provider
     private eventSubscriber: ISubscriber
 
-    constructor(
-        protected jobScheduler: ICron
-    ) {}
+    constructor() {}
 
     public GetService(serviceId: string): MemoryService {
         if (serviceId) {
-            const jobScheduler = this.jobScheduler
             const logger = LoggerInstance
-            return new MemoryService(jobScheduler, redisClient, logger)
+            return new MemoryService(redisClient, logger)
         }
     }
 
@@ -99,16 +92,13 @@ export class L2Provider {
 export class L1Provider {
     private eventSubscriber: ISubscriber
     
-    constructor(
-        protected jobScheduler: ICron
-    ) {}
+    constructor() {}
 
     public GetService(serviceId: string): DataService {
         if (serviceId) {
-            const jobScheduler = this.jobScheduler
             const model = new Model()
             const logger = LoggerInstance
-            return new DataService(jobScheduler, logger)
+            return new DataService(logger)
         }
     }
 

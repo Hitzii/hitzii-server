@@ -1,9 +1,7 @@
 import { Inject, Service } from "typedi"
 import { Logger } from "winston"
-import { L3JobScheduler } from "../decorators/jobScheduler"
 import DevLogger from "../decorators/logger"
 import { IAccessToken, IAuthorizationCode, IAuthRequest, IAuthToken, IEmailVerificationCode, IEmailVerificationGrant, IEmailVerificationRequest, IRecoveryCode, IRecoveryGrant, IRecoveryRequest, IRefreshToken, ITokenExchangeInput } from "../interfaces/IAuthToken"
-import ICron from "../interfaces/dependencies/ICron"
 import { MicroService } from "../interfaces/IMicroService"
 import { IResetUserPwd, IUserAuthPayload, IUserDisplay, IUserInputDTO, IUserRecord } from "../interfaces/IUser"
 import Memory from "../memory"
@@ -40,10 +38,9 @@ export default class Auth extends MicroService {
     private mailer: Transporter
 
     constructor(
-        @L3JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(jobScheduler, logger)
+        super(logger)
     }
 
     // User authorization

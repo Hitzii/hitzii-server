@@ -1,12 +1,9 @@
 import Container from "typedi";
-import ICron from "../interfaces/dependencies/ICron";
 import { L1Provider } from "../interfaces/ILayer";
 import { IServiceInfo } from "../interfaces/IUtils";
 import PersistentData from "../persistentData";
 
 export default (): L1Provider => {
-    Container.set('l2.jobScheduler', new ICron())
-
     const serviceList: IServiceInfo[] = [
         {
             serviceName: 'user',

@@ -1,8 +1,6 @@
 import { Inject, Service } from "typedi";
 import { Logger } from "winston";
-import { L1JobScheduler } from "../decorators/jobScheduler";
 import DevLogger from "../decorators/logger";
-import ICron from "../interfaces/dependencies/ICron";
 import { DataService } from "../interfaces/IDataService";
 import { IUserDocDTO, IUserRecord } from "../interfaces/IUser";
 
@@ -12,10 +10,9 @@ export default class User extends DataService {
     model: Models.User
 
     constructor(
-        @L1JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(jobScheduler, logger)
+        super(logger)
     }
 
     public async Create(userDoc: IUserDocDTO): Promise<IUserRecord> {

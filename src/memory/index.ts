@@ -1,7 +1,5 @@
 import { Inject } from "typedi";
-import { L2JobScheduler } from "../decorators/jobScheduler";
 import Layer from "../decorators/layer";
-import ICron from "../interfaces/dependencies/ICron";
 import { L2Provider } from "../interfaces/ILayer";
 import { MemoryService } from "../interfaces/IMemoryService";
 
@@ -19,16 +17,10 @@ export default class Memory extends L2Provider {
     @Inject('emailVerification.memoryservice')
     private emailVerification: MemoryService
 
-    constructor(
-        @L2JobScheduler() jobScheduler: ICron
-    ) {
-        super(jobScheduler)
-    }
-
     public GetService(serviceId: string): MemoryService {
-        const serviceInstance = this[serviceId] as MemoryService | any
+        const serviceInstance = this[serviceId] as MemoryService
 
-        if(serviceInstance !== this.jobScheduler) {
+        if(Object.getPrototypeOf(serviceInstance.constructor) === MemoryService) {
             serviceInstance.SetParentLayer(this)
             return serviceInstance
         } else {

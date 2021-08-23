@@ -1,8 +1,6 @@
 import { Inject, Service } from "typedi";
 import { Logger } from "winston";
-import { L3JobScheduler } from "../../decorators/jobScheduler";
 import DevLogger from "../../decorators/logger";
-import ICron from "../../interfaces/dependencies/ICron";
 import { IGoogleDiscoveryDoc } from "../../interfaces/IDiscoveryDoc";
 import OpenIdProvider from "./openIdProvider";
 
@@ -14,9 +12,8 @@ export default class GoogleProvider extends OpenIdProvider {
     discoveryDoc: IGoogleDiscoveryDoc
 
     constructor(
-        @L3JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(jobScheduler, logger)
+        super(logger)
     }
 }

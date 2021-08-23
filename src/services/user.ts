@@ -1,9 +1,7 @@
 import { Inject, Service } from "typedi";
 import { Logger } from "winston";
-import { L3JobScheduler } from "../decorators/jobScheduler";
 import DevLogger from "../decorators/logger";
 import IArgon2 from "../interfaces/dependencies/IArgon2";
-import ICron from "../interfaces/dependencies/ICron";
 import ICrypto from "../interfaces/dependencies/ICrypto";
 import { MicroService } from "../interfaces/IMicroService";
 import { IChangeUserPwd, IUserDisplay, IUserDocDTO, IUserInMemory, IUserInputDTO, IUserRecord, IUserValidation } from "../interfaces/IUser";
@@ -18,10 +16,9 @@ export default class User extends MicroService {
     private crypto: ICrypto
 
     constructor(
-        @L3JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(jobScheduler, logger)
+        super(logger)
     }
 
     public async CreateAccount(userDoc: Partial<IUserDocDTO>): Promise<IUserValidation> {

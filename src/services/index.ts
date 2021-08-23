@@ -1,7 +1,5 @@
 import { Inject } from "typedi";
-import { L3JobScheduler } from "../decorators/jobScheduler";
 import Layer from "../decorators/layer";
-import ICron from "../interfaces/dependencies/ICron";
 import { L3Provider } from "../interfaces/ILayer";
 import { MicroService } from "../interfaces/IMicroService";
 
@@ -16,16 +14,10 @@ export default class Services extends L3Provider {
     @Inject('user.microservice')
     private user: MicroService
 
-    constructor(
-        @L3JobScheduler() jobScheduler: ICron
-    ) {
-        super(jobScheduler)
-    }
-
     public GetService(serviceId: string): MicroService {
-        const serviceInstance = this[serviceId] as MicroService | any
+        const serviceInstance = this[serviceId] as MicroService
 
-        if(serviceInstance !== this.jobScheduler) {
+        if(Object.getPrototypeOf(serviceInstance.constructor) === MicroService) {
             serviceInstance.SetParentLayer(this)
             return serviceInstance
         } else {

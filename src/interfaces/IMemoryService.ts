@@ -1,6 +1,5 @@
 import { Redis } from "ioredis"
 import { Logger } from "winston"
-import ICron from "./dependencies/ICron"
 import { L2Provider } from "./ILayer"
 import { ISubscriber } from "./ISubscriber"
 
@@ -9,11 +8,9 @@ export class MemoryService {
     protected eventDispatcher: ISubscriber
 
     constructor(
-        protected jobScheduler: ICron,
         protected redis: Redis,
         protected logger: Logger
     ) {
-        this.jobScheduler = jobScheduler
         this.redis = redis
         this.logger = logger
     }

@@ -1,9 +1,7 @@
 import { Inject, Service } from "typedi"
 import { Logger } from "winston"
-import { L3JobScheduler } from "../../decorators/jobScheduler"
 import DevLogger from "../../decorators/logger"
 import { IAuthRequest, IThirdAuthCallback, IThirdAuthCode } from "../../interfaces/IAuthToken"
-import ICron from "../../interfaces/dependencies/ICron"
 import { MicroService } from "../../interfaces/IMicroService"
 import OpenIdProvider from "./openIdProvider"
 
@@ -16,10 +14,9 @@ export default class ThirdPartyAuth extends MicroService {
     private facebookProvider: OpenIdProvider
 
     constructor(
-        @L3JobScheduler() jobScheduler: ICron,
         @DevLogger() logger: Logger
     ) {
-        super(jobScheduler, logger)
+        super(logger)
     }
     
     public async SignUp(authRequest: IAuthRequest): Promise<IThirdAuthCode> {

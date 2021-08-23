@@ -2,9 +2,7 @@ import { Redis } from "ioredis";
 import { Inject, Service } from "typedi";
 import { Logger } from "winston";
 import config from "../config";
-import { L2JobScheduler } from "../decorators/jobScheduler";
 import DevLogger from "../decorators/logger";
-import ICron from "../interfaces/dependencies/ICron";
 import { MemoryService } from "../interfaces/IMemoryService";
 import { IUserDocDTO, IUserInMemory, IUserRecord } from "../interfaces/IUser";
 import { IMissingItems, IValidationWarning } from "../interfaces/IUtils";
@@ -12,11 +10,10 @@ import { IMissingItems, IValidationWarning } from "../interfaces/IUtils";
 @Service()
 export default class User extends MemoryService {
     constructor(
-        @L2JobScheduler() jobScheduler: ICron,
         @Inject('redis') redis: Redis,
         @DevLogger() logger: Logger
     ) {
-        super(jobScheduler, redis, logger)
+        super(redis, logger)
     }
 
     // Main CRUD
