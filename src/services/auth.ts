@@ -13,6 +13,7 @@ import IJWT from "../interfaces/dependencies/IJWT"
 import { Transporter, SendMailOptions, SentMessageInfo } from 'nodemailer'
 import { IMissingItems } from "../interfaces/IUtils"
 import events from "../subscribers/events"
+import tasks from "../jobs/tasks"
 
 interface ExtSentMessageInfo extends SentMessageInfo {
     messageId: string
@@ -73,6 +74,7 @@ export default class Auth extends MicroService {
             }
 
             this.eventDispatcher.dispatch(events.user.signUp, user)
+            // this.jobScheduler.startScheduledTask(tasks.test.printEverySecond.taskName)
 
             this.logger.silly('Issuing authorization code')
             // return this.issueAuthCode(userRecord, authRequest)

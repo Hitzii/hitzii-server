@@ -36,5 +36,9 @@ export default async (): Promise<Router> => {
     const eventSubscribersLoader = require('./eventSubscribers').default
     eventSubscribersLoader({ l1Provider, l2Provider, l3Provider })
 
+    // Set job schedulers
+    const jobSchedulersLoader = require('./jobSchedulers').default
+    jobSchedulersLoader({ l1Provider, l2Provider, l3Provider })
+
     return l4Provider.GetRouter()
 }

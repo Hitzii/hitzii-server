@@ -19,6 +19,7 @@ export default {
     api: {
         prefix: '/api/v1'
     },
+    timezone: process.env.TIMEZONE,
     auth: {
         authCodeTTL: parseInt(process.env.AUTH_CODE_TTL, 10),
         accessTokenExp: parseInt(process.env.ACCESS_TOKEN_EXP, 10),

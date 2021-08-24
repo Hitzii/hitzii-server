@@ -4,6 +4,7 @@ import { Model } from 'mongoose'
 import LoggerInstance from '../loaders/commons/logger'
 import redisClient from '../loaders/commons/redis'
 import { DataService } from './IDataService'
+import { JobScheduler } from './IJobScheduler'
 import { MemoryService } from './IMemoryService'
 import { MicroService } from './IMicroService'
 import { ISubscriber } from './ISubscriber'
@@ -32,6 +33,7 @@ export class L4Provider {
 export class L3Provider {
     protected l2Provider: L2Provider
     private eventSubscriber: ISubscriber
+    private jobScheduler: JobScheduler
 
     constructor() {}
 
@@ -56,6 +58,14 @@ export class L3Provider {
 
     public GetEventSubscriber(): ISubscriber {
         return this.eventSubscriber
+    }
+
+    public SetJobScheduler(jobScheduler: JobScheduler): void {
+        this.jobScheduler = jobScheduler
+    }
+
+    public GetJobScheduler(): JobScheduler {
+        return this.jobScheduler
     }
 }
 
