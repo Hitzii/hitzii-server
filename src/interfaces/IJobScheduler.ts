@@ -6,7 +6,7 @@ import { L1Provider, L2Provider, L3Provider } from "./ILayer"
 export type TaskEntry = { taskName: string, cronExpression: string }
 export type TasksCollection = { [index: string]: { [index: string]: TaskEntry } }
 
-export class JobScheduler {
+class JobScheduler {
     protected scheduledTasks: { [index: string]: ScheduledTask } = {}
 
     constructor(protected serviceProvider: L1Provider | L2Provider | L3Provider, tasks: TasksCollection) {
@@ -53,4 +53,9 @@ export class JobScheduler {
     public stopScheduledTask(taskName: string): void {
         this.scheduledTasks[taskName].stop()
     }
+}
+
+export interface IJobScheduler {
+    startScheduledTask(taskName: string): void
+    stopScheduledTask(taskName: string): void
 }

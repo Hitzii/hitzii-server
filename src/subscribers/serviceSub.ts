@@ -5,7 +5,7 @@ import Container from "typedi"
 import Services from "../services"
 import { EventSubscriber } from "../decorators/eventSubscriber"
 
-const serviceProvider= Container.get(Services)
+const serviceProvider = Container.get(Services)
 
 @EventSubscriber(serviceProvider)
 export default class ServiceSubscriber {

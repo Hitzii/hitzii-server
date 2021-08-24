@@ -1,11 +1,12 @@
-import { JobScheduler, TasksCollection } from "../interfaces/IJobScheduler";
-import { L3Provider } from "../interfaces/ILayer";
+import Container from "typedi";
+import { JobScheduler } from "../decorators/jobScheduler";
 import LoggerInstance from "../loaders/commons/logger";
+import Services from "../services";
 
-export default class ServiceJob extends JobScheduler {
-    constructor(serviceProvider: L3Provider, tasks: TasksCollection) {
-        super(serviceProvider, tasks)
-    }
+const serviceProvider = Container.get(Services)
+
+@JobScheduler(serviceProvider)
+export default class ServiceJob  {
 
     private printEverySecond(): void {
         const logger = LoggerInstance

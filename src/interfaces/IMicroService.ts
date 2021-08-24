@@ -1,12 +1,12 @@
 import { Logger } from "winston"
-import { JobScheduler } from "./IJobScheduler"
+import { IJobScheduler } from "./IJobScheduler"
 import { L3Provider } from "./ILayer"
 import { ISubscriber } from "./ISubscriber"
 
 export class MicroService {
     protected parentLayer: L3Provider
     protected eventDispatcher: ISubscriber
-    protected jobScheduler: JobScheduler
+    protected jobScheduler: IJobScheduler
 
     constructor(
         protected logger: Logger
@@ -24,7 +24,7 @@ export class MicroService {
         this.eventDispatcher = dispatcher
     }
 
-    private setJobScheduler(jobScheduler: JobScheduler): void {
+    private setJobScheduler(jobScheduler: IJobScheduler): void {
         this.jobScheduler = jobScheduler
     }
 }

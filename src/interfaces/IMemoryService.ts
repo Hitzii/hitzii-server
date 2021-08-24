@@ -1,11 +1,13 @@
 import { Redis } from "ioredis"
 import { Logger } from "winston"
+import { IJobScheduler } from "./IJobScheduler"
 import { L2Provider } from "./ILayer"
 import { ISubscriber } from "./ISubscriber"
 
 export class MemoryService {
     protected parentLayer: L2Provider
     protected eventDispatcher: ISubscriber
+    protected jobScheduler: IJobScheduler
 
     constructor(
         protected redis: Redis,
@@ -18,10 +20,15 @@ export class MemoryService {
     public SetParentLayer(l2Provider: L2Provider): void {
         this.parentLayer = l2Provider
         this.setEventDispatcher(l2Provider.GetEventSubscriber())
+        this.setJobScheduler(l2Provider.GetJobScheduler())
     }
 
     private setEventDispatcher(dispatcher: ISubscriber): void {
         this.eventDispatcher = dispatcher
+    }
+
+    private setJobScheduler(jobScheduler: IJobScheduler): void {
+        this.jobScheduler = jobScheduler
     }
 
     protected async getMembersOfSet(key: string): Promise<string[]> {

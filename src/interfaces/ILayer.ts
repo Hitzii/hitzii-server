@@ -4,7 +4,7 @@ import { Model } from 'mongoose'
 import LoggerInstance from '../loaders/commons/logger'
 import redisClient from '../loaders/commons/redis'
 import { DataService } from './IDataService'
-import { JobScheduler } from './IJobScheduler'
+import { IJobScheduler } from './IJobScheduler'
 import { MemoryService } from './IMemoryService'
 import { MicroService } from './IMicroService'
 import { ISubscriber } from './ISubscriber'
@@ -33,7 +33,7 @@ export class L4Provider {
 export class L3Provider {
     protected l2Provider: L2Provider
     private eventSubscriber: ISubscriber
-    private jobScheduler: JobScheduler
+    private jobScheduler: IJobScheduler
 
     constructor() {}
 
@@ -60,11 +60,11 @@ export class L3Provider {
         return this.eventSubscriber
     }
 
-    public SetJobScheduler(jobScheduler: JobScheduler): void {
+    public SetJobScheduler(jobScheduler: IJobScheduler): void {
         this.jobScheduler = jobScheduler
     }
 
-    public GetJobScheduler(): JobScheduler {
+    public GetJobScheduler(): IJobScheduler {
         return this.jobScheduler
     }
 }
@@ -72,6 +72,7 @@ export class L3Provider {
 export class L2Provider {
     protected l1Provider: L1Provider
     private eventSubscriber: ISubscriber
+    private jobScheduler: IJobScheduler
 
     constructor() {}
 
@@ -97,10 +98,19 @@ export class L2Provider {
     public GetEventSubscriber(): ISubscriber {
         return this.eventSubscriber
     }
+
+    public SetJobScheduler(jobScheduler: IJobScheduler): void {
+        this.jobScheduler = jobScheduler
+    }
+
+    public GetJobScheduler(): IJobScheduler {
+        return this.jobScheduler
+    }
 }
 
 export class L1Provider {
     private eventSubscriber: ISubscriber
+    private jobScheduler: IJobScheduler
     
     constructor() {}
 
@@ -118,5 +128,13 @@ export class L1Provider {
 
     public GetEventSubscriber(): ISubscriber {
         return this.eventSubscriber
+    }
+
+    public SetJobScheduler(jobScheduler: IJobScheduler): void {
+        this.jobScheduler = jobScheduler
+    }
+
+    public GetJobScheduler(): IJobScheduler {
+        return this.jobScheduler
     }
 }
