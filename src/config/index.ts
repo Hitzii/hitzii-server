@@ -58,5 +58,9 @@ export default {
         secret: process.env.FACEBOOK_SECRET,
         redirect_uri: process.env.FACEBOOK_REDIRECT_URI,
         default_scope: process.env.FACEBOOK_DEFAULT_SCOPE.replace('-', ' ')
+    },
+    redis:{
+        uri: process.env.REDIS_URI || "localhost",
+        port: parseInt(process.env.REDIS_PORT, 10) || 6379,
     }
 }
