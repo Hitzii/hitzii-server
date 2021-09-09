@@ -1,5 +1,4 @@
 import { NextFunction, Request, Response, Router, json, urlencoded } from "express";
-import cors from 'cors';
 import { L3Provider } from "../../interfaces/ILayer";
 import auth from "./auth";
 import user from "./user";
@@ -17,8 +16,6 @@ export default ({ app, serviceProvider }: { app: Router, serviceProvider: L3Prov
     app.head('/status', (req: Request, res: Response) => {
         res.status(200).end()
     })
-
-    app.use(cors())
 
     app.use(require('method-override')())
 

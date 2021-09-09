@@ -64,6 +64,7 @@ export default ({ app, serviceProvider }: { app: Router, serviceProvider: L3Prov
     route.post(
         '/signin',
         isValidClient,
+        upload.single('multi-file'),
         celebrate({
             body: Joi.object({
                 email: Joi.string().email().required(),
