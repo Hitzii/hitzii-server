@@ -9,6 +9,8 @@ import { createServer } from 'http'
 import Logger from './loaders/commons/logger'
 
 import express, { Router } from 'express'
+import { URL } from 'url'
+import cors from 'cors'
 // import API from './api'
 
 const cpuCount = os.cpus().length
@@ -87,6 +89,17 @@ async function startServer() {
         Logger.info(`Worker ${process.pid} started`)
     
         const restRouter = await require('./loaders').default() as Router
+
+        const clientRedirectURIs = [config.client.redirect_uri]
+        const domains = clientRedirectURIs.map(uri => {
+            const clientURL = new URL(uri)
+            return clientURL.origin
+        })
+    
+        app.use(cors({
+            origin: domains
+        }))
+
         app.use(api.prefix, restRouter)
 
         app.enable('trust proxy')
